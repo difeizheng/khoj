@@ -59,3 +59,8 @@ src/interface/android/local.properties
 
 # graphify knowledge graph artifacts (rebuildable via graphify update)
 graphify-out/
+
+# web-i18n build artifacts (rebuildable via web-i18n/build.sh)
+web-i18n/dist/
+web-i18n/dist-khoj-i18n.js
+web-i18n/.extract-tmp/
