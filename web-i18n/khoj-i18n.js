@@ -16,7 +16,41 @@
     var LANG_KEY = "khoj-i18n-lang";
     var lang = "zh";
     try { lang = localStorage.getItem(LANG_KEY) || "zh"; } catch (e) {}
-    if (lang === "en") return; // 用户显式选择英文：本脚本完全休眠
+
+    /* 英文模式下：仍渲染「中」切换按钮（否则用户会被锁死在英文，无法切回），只是不做翻译 */
+    if (lang === "en") {
+        (function () {
+            function createEnToggle() {
+                var existed = document.getElementById("khoj-i18n-toggle");
+                if (existed) return;
+                var btn = document.createElement("button");
+                btn.id = "khoj-i18n-toggle";
+                btn.textContent = "中";
+                btn.title = "切换界面语言 / Toggle UI language";
+                btn.style.cssText =
+                    "position:fixed;bottom:18px;right:18px;z-index:2147483000;padding:6px 14px;" +
+                    "border-radius:9999px;border:1px solid rgba(148,163,184,.5);font-size:12px;" +
+                    "line-height:1.4;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);" +
+                    "font-family:system-ui,sans-serif;backdrop-filter:blur(4px);user-select:none;" +
+                    "background:rgba(255,255,255,.92);color:#0f172a";
+                btn.addEventListener("click", function () {
+                    try {
+                        localStorage.setItem(LANG_KEY, "zh");
+                    } catch (e) {}
+                    location.reload();
+                });
+                (document.body || document.documentElement).appendChild(btn);
+            }
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", createEnToggle);
+            } else {
+                createEnToggle();
+            }
+            // React 重渲染可能移除按钮，补回
+            new MutationObserver(createEnToggle).observe(document.body || document.documentElement, { childList: true, subtree: true });
+        })();
+        return; // 不做任何翻译
+    }
 
     /* ================= 词典：key = 英文原文（完整匹配），value = 中文 ================= */
     var DICT = {

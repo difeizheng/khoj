@@ -24,7 +24,7 @@ dist/（构建产物，gitignore）
 
 `khoj-i18n.js`（无依赖单文件）加载后翻译静态 DOM，再挂 MutationObserver 跟踪 React 渲染的新节点。**只做整文本精确匹配**：词典 key 必须等于文本节点/属性（placeholder/aria-label/title）的完整英文串——因此聊天流式内容、AI 回复、用户输入永远不会被误翻。
 
-右下角浮动「中」按钮可切回英文（存 localStorage `khoj-i18n-lang`，值为 `en` 时脚本整体休眠）。
+右下角浮动「中/EN」按钮可切换语言（存 localStorage `khoj-i18n-lang`）。英文模式下脚本不做翻译，但仍渲染「中」按钮供切回中文（不会锁死在英文）。
 
 ## 日常使用
 
